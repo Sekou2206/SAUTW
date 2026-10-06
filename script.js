@@ -1,0 +1,7 @@
+const q=(s)=>document.querySelector(s),qa=(s)=>[...document.querySelectorAll(s)];
+const progress=q('#progress');addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-innerHeight;progress.style.width=(scrollY/max*100)+'%'});
+const vids=qa('video');const io=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting){v.play().catch(()=>{})}else v.pause()}),{threshold:.18});vids.forEach(v=>io.observe(v));
+const film=q('#film'),cards=qa('.stage .card');addEventListener('scroll',()=>{const r=film.getBoundingClientRect(),h=film.offsetHeight-innerHeight,p=Math.max(0,Math.min(1,-r.top/h));if(innerWidth>900){const spread=1-p*.34;cards.forEach((c,i)=>{if(c.classList.contains('center'))c.style.transform=`scale(${.88+p*.12}) translateY(${(1-p)*35}px)`;else{let dir=i<2?-1:1;c.style.marginLeft=(dir*(1-p)*18)+'vw';c.style.filter=`brightness(${.55+p*.45})`}})}});
+const sound=q('#sound'),main=q('#mainFilm');sound.addEventListener('click',()=>{main.muted=!main.muted;sound.textContent=main.muted?'SON OFF':'SON ON'});
+const final=q('#finalFilm');const finalIO=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){final.currentTime=0;final.play().catch(()=>{})}}),{threshold:.6});finalIO.observe(final);
+const menu=q('.menu');menu.addEventListener('click',()=>{const n=q('nav');n.style.display=n.style.display==='flex'?'none':'flex';Object.assign(n.style,{position:'fixed',inset:'70px 0 auto',padding:'30px',background:'#090909',flexDirection:'column',transform:'none',gap:'25px'})});
